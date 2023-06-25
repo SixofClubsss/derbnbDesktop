@@ -78,7 +78,19 @@ var listed_properties []string
 var property_photos string_slice_map
 var my_bookings string_slice_map
 var my_properties string_slice_map
-var background *fyne.Container
+
+func DreamsMenuIntro() (entries map[string][]string) {
+	entries = map[string][]string{
+		"DerBnb": {
+			"A property rental platform",
+			"Users can mint properties as contracts and list for rentals",
+			"Property owners can choose rates, damage deposits and availability dates",
+			"Dero messaging helps owners and renters facilitate the final details of rental privately",
+			"Rating system for properties"},
+	}
+
+	return
+}
 
 // Run DerBnb as a single dApp
 func StartApp() {
