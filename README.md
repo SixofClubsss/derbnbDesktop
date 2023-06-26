@@ -1,5 +1,6 @@
 # derbnbDesktop
 On chain property management rental app built on [Dero](https://dero.io).
+
 ![DerBnb logo](https://raw.githubusercontent.com/SixofClubsss/dreamdappsite/main/assets/derbnbIcon.png)
 
 The **DerBnb** project started as a entrant in dArch Event 0. 
@@ -11,14 +12,14 @@ Written in Go and using [Fyne Toolkit](https://fyne.io/), derbnbDesktop is built
 As well as being its own application, the derbnbDesktop package can be imported for use in other Go/Fyne applications. Currently derbnbDesktop is featured as a dApp in [dReams], and DerBnb currently has a web app in development.
 
 #### Features
-    - Runs locally on your machine
-	- Mint your properties as Dero tokens
-    - List and manage your rental properties 
-    - Dero private messaging for owners and renters
-    - Search for properties
-    - Request bookings of listed properties
-    - Manage your booking requests 
-    - TRVL tokens with DerBnb profit share
+- Runs locally on your machine
+- Mint your properties as Dero tokens
+- List and manage your rental properties 
+- Dero private messaging for owners and renters
+- Search for properties
+- Request bookings of listed properties
+- Manage your booking requests 
+- TRVL tokens with DerBnb profit share
 
 #### Build
 - Install latest [Go version](https://go.dev/doc/install)
