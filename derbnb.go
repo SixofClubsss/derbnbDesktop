@@ -286,32 +286,29 @@ func SearchProperties(prefix string, search_city bool) (results []string) {
 				for _, h := range info[int64(keys[len(keys)-1])] {
 					split := strings.Split(h.Key.(string), "_")
 					if len(split) > 1 && len(split[0]) == 64 {
-						var have bool
 						if split[1] == "owner" {
 							if filterProperty(h.Value) {
 								continue
 							}
 
-							if !have {
-								location := makeLocationString(split[0])
-								if search_city {
-									if strings.HasPrefix(location, prefix) {
-										list_string := fmt.Sprintf("%s   %s", location, split[0])
-										results = append(results, list_string)
-									}
-								} else {
-									if strings.HasPrefix(location, prefix) {
-										list_string := fmt.Sprintf("%s   %s", location, split[0])
-										results = append(results, list_string)
-									}
-
-									if country_check := strings.Split(location, ", "); country_check != nil {
-										l := len(country_check)
-										if l > 1 {
-											if strings.HasPrefix(country_check[l-1], prefix) {
-												list_string := fmt.Sprintf("%s   %s", location, split[0])
-												results = append(results, list_string)
-											}
+							location := makeLocationString(split[0])
+							if search_city {
+								if strings.HasPrefix(location, prefix) {
+									list_string := fmt.Sprintf("%s   %s", location, split[0])
+									results = append(results, list_string)
+								}
+							} else {
+								if country_check := strings.Split(location, ", "); country_check != nil {
+									l := len(country_check)
+									if l > 1 {
+										if strings.HasPrefix(country_check[l-1], prefix) {
+											list_string := fmt.Sprintf("%s   %s", location, split[0])
+											results = append(results, list_string)
+										}
+									} else {
+										if strings.HasPrefix(location, prefix) {
+											list_string := fmt.Sprintf("%s   %s", location, split[0])
+											results = append(results, list_string)
 										}
 									}
 								}
@@ -586,15 +583,22 @@ func getInfo(scid string) (info string) {
 }
 
 func makeAmenityInfo(data *property_data) (info string) {
-	info = fmt.Sprintf("Has Wifi: %t\n\nHas TV: %t\n\nHas Kitchen: %t\n\nHas Washer: %t\n\nHas Parking: %t\n\nHas Air Conditioning: %t\n\nHas Workspace: %t\n\nHas Pool: %t\n\n", data.Amenities.Wifi, data.Amenities.TV, data.Amenities.Kitchen, data.Amenities.Washer, data.Amenities.Parking, data.Amenities.AirConditioner, data.Amenities.Workspace, data.Amenities.Pool)
-	info = info + fmt.Sprintf("Has Hot Tub: %t\n\nHas BBQ: %t\n\nHas Outdoor Dining: %t\n\nHas FIre Pit: %t\n\nHas Games Room: %t\n\nHas Exercise Equipment: %t\n\n", data.Amenities.HotTub, data.Amenities.BBQ, data.Amenities.OutdoorDining, data.Amenities.FirePit, data.Amenities.GamesRoom, data.Amenities.ExerciseEquip)
-	info = info + fmt.Sprintf("Has Lake Access: %t\n\nHas Beach Access: %t\n\nHas Smoke Alarm: %t\n\nHas Fire Extinguisher: %t\n\n", data.Amenities.LakeAccess, data.Amenities.BeachAccess, data.Amenities.SmokeAlarm, data.Amenities.FireExtinguisher)
-
+	info = fmt.Sprintf("Has Wifi: %s\n\nHas TV: %s\n\nHas Kitchen: %s\n\nHas Washer: %s\n\nHas Parking: %s\n\nHas Air Conditioning: %s\n\nHas Workspace: %s\n\nHas Pool: %s\n\n", amenityDisplay(data.Amenities.Wifi), amenityDisplay(data.Amenities.TV), amenityDisplay(data.Amenities.Kitchen), amenityDisplay(data.Amenities.Washer), amenityDisplay(data.Amenities.Parking), amenityDisplay(data.Amenities.AirConditioner), amenityDisplay(data.Amenities.Workspace), amenityDisplay(data.Amenities.Pool))
+	info = info + fmt.Sprintf("Has Hot Tub: %s\n\nHas BBQ: %s\n\nHas Outdoor Dining: %s\n\nHas FIre Pit: %s\n\nHas Games Room: %s\n\nHas Exercise Equipment: %s\n\n", amenityDisplay(data.Amenities.HotTub), amenityDisplay(data.Amenities.BBQ), amenityDisplay(data.Amenities.OutdoorDining), amenityDisplay(data.Amenities.FirePit), amenityDisplay(data.Amenities.GamesRoom), amenityDisplay(data.Amenities.ExerciseEquip))
+	info = info + fmt.Sprintf("Has Lake Access: %s\n\nHas Beach Access: %s\n\nHas Smoke Alarm: %s\n\nHas Fire Extinguisher: %s\n\n", amenityDisplay(data.Amenities.LakeAccess), amenityDisplay(data.Amenities.BeachAccess), amenityDisplay(data.Amenities.SmokeAlarm), amenityDisplay(data.Amenities.FireExtinguisher))
 	return
 }
 
 func amenityValue(a string) bool {
 	return a == "Yes"
+}
+
+func amenityDisplay(b bool) string {
+	if b {
+		return "Yes"
+	}
+
+	return "No"
 }
 
 // Get owner address of DerBnb property

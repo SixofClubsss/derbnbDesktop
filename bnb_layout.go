@@ -832,7 +832,7 @@ func LayoutAllItems(imported bool, d dreams.DreamsObject) fyne.CanvasObject {
 		}
 
 		next_withdraw := uint64(time.Now().Unix()-1684428835) / 2629743
-		if next_withdraw < epoch {
+		if next_withdraw > epoch {
 			pay := (shares * treasury) / 1000000
 			info := fmt.Sprintf("You have %d Shares\n\nYou will get %0.5f Dero", shares, float64(pay)/100000)
 			dialog.NewConfirm("Withdraw Dero", info, func(b bool) {
@@ -877,7 +877,10 @@ func LayoutAllItems(imported bool, d dreams.DreamsObject) fyne.CanvasObject {
 				}
 				shares, epoch, _ := getUserShares()
 				next_withdraw := uint64(time.Now().Unix()-1684428835) / 2629743
-				confirm_action_label.SetText(fmt.Sprintf("Shares allow you to withdraw Dero from the DerBnb treasury each month\n\n10000 TRVL = 1 Share\n\nTRVL Balance: %d\n\nShares: %d\n\nWithdraw Available: %t", rpc.Wallet.ReadTokenBalance("TRVL"), shares, next_withdraw < epoch))
+				if shares == 0 {
+					epoch = next_withdraw
+				}
+				confirm_action_label.SetText(fmt.Sprintf("Shares allow you to withdraw Dero from the DerBnb treasury each month\n\n10000 TRVL = 1 Share\n\nTRVL Balance: %d\n\nShares: %d\n\nWithdraw Available: %t", rpc.Wallet.ReadTokenBalance("TRVL"), shares, next_withdraw > epoch))
 				time.Sleep(time.Second)
 			}
 			trvl_exit = false
@@ -925,7 +928,11 @@ func LayoutAllItems(imported bool, d dreams.DreamsObject) fyne.CanvasObject {
 			if location := makeLocationString(scid_entry.Text); location != "" {
 				if data := getMetadata(scid_entry.Text); data != nil {
 					derbnb_gif.Start()
-					data_string := fmt.Sprintf("Surface: %d\n\nStyle: %s\n\nBedrooms: %d\n\nMax guests: %d\n\nDescription: %s", data.Surface, data.Style, data.NumberOfBedrooms, data.MaxNumberOfGuests, data.Description)
+					data_str1 := fmt.Sprintf("Surface: %d\n\nStyle: %s\n\nBedrooms: %d\n\nMax guests: %d\n\nDescription: %s\n\nCleaning fee: %d\n\n", data.Surface, data.Style, data.NumberOfBedrooms, data.MaxNumberOfGuests, data.Description, data.CleaningFee)
+					data_str2 := fmt.Sprintf("Minimum stay: %d\n\nMaximum stay: %d\n\nName: %s\n\nShare: %sRules: %s\n\nBathrooms: %d\n\n", data.MinimumStay, data.MaximumStay, data.Name, data.Share, data.Rules, data.NumberOfBathrooms)
+					amen_str1 := fmt.Sprintf("Pets: %s\n\nWifi: %s\n\nTV: %s\n\nKitchen: %s\n\nWasher: %s\n\nFree parking: %s\n\nAir conditioner: %s\n\n", amenityDisplay(data.Pets), amenityDisplay(data.Amenities.Wifi), amenityDisplay(data.Amenities.TV), amenityDisplay(data.Amenities.Kitchen), amenityDisplay(data.Amenities.Washer), amenityDisplay(data.Amenities.Parking), amenityDisplay(data.Amenities.AirConditioner))
+					amen_str2 := fmt.Sprintf("Workspace: %s\n\nPool access: %s\n\nHot tub: %s\n\nBBQ: %s\n\nOutdoor dining: %s\n\nFire pit: %s\n\nGames room: %s\n\n", amenityDisplay(data.Amenities.Workspace), amenityDisplay(data.Amenities.Pool), amenityDisplay(data.Amenities.HotTub), amenityDisplay(data.Amenities.BBQ), amenityDisplay(data.Amenities.OutdoorDining), amenityDisplay(data.Amenities.FirePit), amenityDisplay(data.Amenities.GamesRoom))
+					amen_str3 := fmt.Sprintf("Exercise equipment: %s\n\nLake access: %s\n\nBeach access: %s\n\nSmoke alarm: %s\n\nFire extinguisher: %s", amenityDisplay(data.Amenities.ExerciseEquip), amenityDisplay(data.Amenities.LakeAccess), amenityDisplay(data.Amenities.BeachAccess), amenityDisplay(data.Amenities.SmokeAlarm), amenityDisplay(data.Amenities.FireExtinguisher))
 					confirm_border.Objects[4] = container.NewVScroll(container.NewVBox(layout.NewSpacer(), confirm_action_label, layout.NewSpacer()))
 					price_str := price_entry.Text
 					if price_fl, err := strconv.ParseFloat(price_str, 64); err == nil {
@@ -937,7 +944,7 @@ func LayoutAllItems(imported bool, d dreams.DreamsObject) fyne.CanvasObject {
 						dep_str = fmt.Sprintf("%.5f", float64(dep_fl))
 					}
 
-					confirm_action_label.SetText(fmt.Sprintf("Listing property\n\nSCID: %s\n\n%s\n\nDaily rate of: %s Dero\n\nDamage deposit: %s Dero\n\n%s", scid_entry.Text, location, price_str, dep_str, data_string))
+					confirm_action_label.SetText(fmt.Sprintf("Listing property\n\nSCID: %s\n\n%s\n\nDaily rate of: %s Dero\n\nDamage deposit: %s Dero\n\n%s%s%s%s%s", scid_entry.Text, location, price_str, dep_str, data_str1, data_str2, amen_str1, amen_str2, amen_str3))
 					confirm_action_int = 2
 					d.Window.SetContent(confirm_max)
 				} else {
