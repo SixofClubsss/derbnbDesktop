@@ -45,7 +45,7 @@ var connect_box *dwidget.DeroRpcEntries
 //   - closing if closing signal of main app
 //   - w is main window of main app for switch back
 //   - background is background content of main app for switch back
-func LayoutAllItems(imported bool, d dreams.DreamsObject) fyne.CanvasObject {
+func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	var count int
 	var image_box *fyne.Container
 	var reset_to_main fyne.CanvasObject

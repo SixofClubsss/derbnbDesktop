@@ -143,7 +143,7 @@ func StartApp() {
 	go fetch(quit, done)
 	go func() {
 		time.Sleep(450 * time.Millisecond)
-		w.SetContent(container.New(layout.NewMaxLayout(), d.Background, LayoutAllItems(false, d)))
+		w.SetContent(container.New(layout.NewMaxLayout(), d.Background, LayoutAllItems(false, &d)))
 	}()
 	w.ShowAndRun()
 	<-done
