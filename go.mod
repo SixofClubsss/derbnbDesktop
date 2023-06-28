@@ -5,7 +5,7 @@ go 1.20
 require (
 	fyne.io/fyne/v2 v2.3.1
 	fyne.io/x/fyne v0.0.0-20230411205836-1ca0ead20763
-	github.com/dReam-dApps/dReams v0.9.7-0.20230627073815-ba77deace9bf
+	github.com/dReam-dApps/dReams v0.9.7-0.20230628000204-46d86e9eedff
 	github.com/deroproject/derohe v0.0.0-20230604143809-765b2db1f482
 )
 
@@ -14,7 +14,7 @@ require (
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
-	github.com/civilware/Gnomon v0.0.0-20230623143540-9e690b99277a // indirect
+	github.com/civilware/Gnomon v0.0.0-20230627144738-10ead43c1bb7 // indirect
 	github.com/creachadair/jrpc2 v0.43.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dchest/siphash v1.2.3 // indirect
@@ -46,6 +46,7 @@ require (
 	github.com/srwiley/oksvg v0.0.0-20220731023508-a61f04f16b76 // indirect
 	github.com/srwiley/rasterx v0.0.0-20210519020934-456a8d69b780 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
+	github.com/superoo7/go-gecko v1.0.0 // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/ybbus/jsonrpc/v3 v3.1.4 // indirect
