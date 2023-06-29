@@ -252,7 +252,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	}
 
 	// price per night entry
-	price_entry := dwidget.DeroAmtEntry("", 0.1, 5)
+	price_entry := dwidget.NewDeroEntry("", 0.1, 5)
 	price_entry.SetPlaceHolder("Price:     ")
 	price_entry.AllowFloat = true
 	price_entry.Validator = validation.NewRegexp(`^\d{1,}\.\d{1,5}$|^[^0]\d{0,}$`, "Float required")
@@ -261,7 +261,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	}
 
 	// damage deposit entry
-	deposit_entry := dwidget.DeroAmtEntry("", 0.1, 5)
+	deposit_entry := dwidget.NewDeroEntry("", 0.1, 5)
 	deposit_entry.AllowFloat = true
 	deposit_entry.SetPlaceHolder("Damage deposit:")
 	deposit_entry.Validator = validation.NewRegexp(`^\d{1,}\.\d{1,5}$|^[^0]\d{0,}$`, "Float required")
@@ -270,7 +270,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	}
 
 	// damage deposit release objects
-	release_entry := dwidget.DeroAmtEntry("", 0.1, 5)
+	release_entry := dwidget.NewDeroEntry("", 0.1, 5)
 	release_entry.SetPlaceHolder("Damage amount in Dero:")
 	release_entry.Validator = validation.NewRegexp(`^\d{1,}\.\d{1,5}$|^[^0]\d{0,}$`, "Float required")
 
@@ -362,7 +362,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 	// DerBnb SC deposit/withdraw entry and container
 	var trvl_border *fyne.Container
-	trvl_amt_entry := dwidget.DeroAmtEntry("", 10000, 0)
+	trvl_amt_entry := dwidget.NewDeroEntry("", 10000, 0)
 	trvl_amt_entry.SetPlaceHolder("TRVL:")
 	trvl_amt_entry.AllowFloat = false
 	trvl_amt_entry.Validator = validation.NewRegexp(`^[^0]\d{4,}$`, "Int required")
@@ -376,7 +376,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 		}
 	}
 
-	trvl_share_entry := dwidget.DeroAmtEntry("", 1, 0)
+	trvl_share_entry := dwidget.NewDeroEntry("", 1, 0)
 	trvl_share_entry.SetPlaceHolder("Shares:")
 	trvl_share_entry.AllowFloat = false
 	trvl_share_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
@@ -1548,11 +1548,11 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	// properties list control objects
 	squared_symbol := "\u00B2"
 
-	surface_entry := dwidget.DeroAmtEntry("", 1, 0)
+	surface_entry := dwidget.NewDeroEntry("", 1, 0)
 	surface_entry.SetPlaceHolder("Sq Meters:")
 	surface_entry.AllowFloat = false
 	surface_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
-	meter_foot_entry := dwidget.DeroAmtEntry("", 1, 0)
+	meter_foot_entry := dwidget.NewDeroEntry("", 1, 0)
 	meter_foot_entry.AllowFloat = false
 	meter_foot_entry.SetPlaceHolder("Sq Feet:")
 	meter_foot_button := widget.NewButton(fmt.Sprintf("Convert Foot%s to Meter%s", squared_symbol, squared_symbol), func() {
@@ -1587,13 +1587,13 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	style_entry.PlaceHolder = "Style:"
 	style_cont := container.NewVBox(style_entry)
 
-	num_bedrooms_entry := dwidget.DeroAmtEntry("", 1, 0)
+	num_bedrooms_entry := dwidget.NewDeroEntry("", 1, 0)
 	num_bedrooms_entry.SetPlaceHolder("Number of bedrooms:")
 	num_bedrooms_entry.AllowFloat = false
 	num_bedrooms_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
 	num_bedrooms_cont := container.NewVBox(num_bedrooms_entry)
 
-	num_guests_entry := dwidget.DeroAmtEntry("", 1, 0)
+	num_guests_entry := dwidget.NewDeroEntry("", 1, 0)
 	num_guests_entry.SetPlaceHolder("Max guests:")
 	num_guests_entry.AllowFloat = false
 	num_guests_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
@@ -1635,19 +1635,19 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	prop_descp_entry.Wrapping = fyne.TextWrapWord
 	prop_descp_cont := container.NewVBox(prop_descp_entry)
 
-	cleaning_fee_entry := dwidget.DeroAmtEntry("", 1, 0)
+	cleaning_fee_entry := dwidget.NewDeroEntry("", 1, 0)
 	cleaning_fee_entry.SetPlaceHolder("Cleaning fee:")
 	cleaning_fee_entry.AllowFloat = false
 	cleaning_fee_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
 	cleaning_fee_cont := container.NewVBox(cleaning_fee_entry)
 
-	min_stay_entry := dwidget.DeroAmtEntry("", 1, 0)
+	min_stay_entry := dwidget.NewDeroEntry("", 1, 0)
 	min_stay_entry.SetPlaceHolder("Minimum stay:")
 	min_stay_entry.AllowFloat = false
 	min_stay_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
 	min_stay_cont := container.NewVBox(min_stay_entry)
 
-	max_stay_entry := dwidget.DeroAmtEntry("", 1, 0)
+	max_stay_entry := dwidget.NewDeroEntry("", 1, 0)
 	max_stay_entry.SetPlaceHolder("Maximum stay:")
 	max_stay_entry.AllowFloat = false
 	max_stay_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
@@ -1668,7 +1668,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	prop_rules_entry.Validator = validation.NewRegexp(`^\w{1,}`, "String required")
 	prop_rules_cont := container.NewVBox(prop_rules_entry)
 
-	bathrooms_entry := dwidget.DeroAmtEntry("", 1, 0)
+	bathrooms_entry := dwidget.NewDeroEntry("", 1, 0)
 	bathrooms_entry.SetPlaceHolder("Bathrooms:")
 	bathrooms_entry.AllowFloat = false
 	bathrooms_entry.Validator = validation.NewRegexp(`^[^0]\d{0,}$`, "Int required")
@@ -1824,7 +1824,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 		max = container.NewMax(tab_bottom_bar, tabs)
 	} else {
 		tag := "DerBnb"
-		connect_box = dwidget.HorizontalEntries(tag, 1)
+		connect_box = dwidget.NewHorizontalEntries(tag, 1)
 		connect_box.Button.OnTapped = func() {
 			rpc.GetAddress(tag)
 			rpc.Ping()
