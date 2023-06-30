@@ -78,8 +78,8 @@ github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghf
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
 github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
-github.com/civilware/Gnomon v0.0.0-20230627144738-10ead43c1bb7 h1:hCnVzCaj0ZMA6eA38NFpBNkPBoFeF9FP1Qjn2gTyexI=
-github.com/civilware/Gnomon v0.0.0-20230627144738-10ead43c1bb7/go.mod h1:TyoMJDmnAWSxz8tnSYrdV8K6fkOnCAX78yQX/8l+OJw=
+github.com/civilware/Gnomon v0.0.0-20230629173619-f2809fb61dfc h1:CtrNEu2akU+j6Pju1zXUgrK8qwMC/wwENsWcMnTFS7g=
+github.com/civilware/Gnomon v0.0.0-20230629173619-f2809fb61dfc/go.mod h1:TyoMJDmnAWSxz8tnSYrdV8K6fkOnCAX78yQX/8l+OJw=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
@@ -90,8 +90,8 @@ github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsr
 github.com/cpuguy83/go-md2man/v2 v2.0.1/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/creachadair/jrpc2 v0.43.0 h1:sgYSOoAWXZ5cx9pd2pYH8dkrjCNdDpFwhO4ucMeUz7U=
 github.com/creachadair/jrpc2 v0.43.0/go.mod h1:oOdNFoMQQpSirGcSujG10NYl05K/IYrIUUNbh+/Xcd8=
-github.com/dReam-dApps/dReams v0.9.7-0.20230629035106-3a1bb0aa81fc h1:xicyjTatw5TP6gzEiW8CPmzTNYtlqtLkM3z4Bq4ae0o=
-github.com/dReam-dApps/dReams v0.9.7-0.20230629035106-3a1bb0aa81fc/go.mod h1:PytrtnIZzAvaK37zvN9YMifCwp5D2XCtRwkDA00DDmE=
+github.com/dReam-dApps/dReams v0.9.7-0.20230630182006-2db4e86841b7 h1:KvS3WYxf1mlhoyXcHhaguUiqETUgm2wOj3rH1YnZqWs=
+github.com/dReam-dApps/dReams v0.9.7-0.20230630182006-2db4e86841b7/go.mod h1:+yV3KK+BUxkRe82AS7XnZtpa9cMJPjM0PcBEtG0Cz5A=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

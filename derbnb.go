@@ -86,7 +86,8 @@ func DreamsMenuIntro() (entries map[string][]string) {
 			"Users can mint properties as contracts and list for rentals",
 			"Property owners can choose rates, damage deposits and availability dates",
 			"Dero messaging helps owners and renters facilitate the final details of rental privately",
-			"Rating system for properties"},
+			"Rating system for properties",
+			"DerBnb profit share and TRVL tokens"},
 	}
 
 	return
