@@ -179,6 +179,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 	layout1_top_split := container.NewHSplit(image_cont, listing_label_cont)
 
+	var viewing_address string
 	var request_button, confirm_request_button, cancel_request_button, release_button, cancel_booking_button *widget.Button
 
 	// mint a new property token
@@ -196,6 +197,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	property_search_button := widget.NewButtonWithIcon("", fyne.Theme.Icon(fyne.CurrentApp().Settings().Theme(), "search"), func() {
 		if property_search_entry.Text != "" && rpc.Wallet.IsConnected() {
 			viewing_scid = ""
+			viewing_address = ""
 			listings_list.UnselectAll()
 			switch property_search_by.Selected {
 			case "Country  ":
@@ -208,6 +210,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 	property_clear_button := widget.NewButtonWithIcon("", fyne.Theme.Icon(fyne.CurrentApp().Settings().Theme(), "searchReplace"), func() {
 		viewing_scid = ""
+		viewing_address = ""
 		property_search_entry.SetText("")
 		searching_properties = false
 		listings_list.UnselectAll()
@@ -223,14 +226,9 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 	listings_cont := container.NewBorder(container.NewBorder(nil, nil, mint_prop_cont, nil, property_search_cont), nil, nil, nil, listings_list)
 
-	layout1_bottom_split := container.NewHSplit(listings_cont, calendar)
-	if imported {
-		layout1_top_split.SetOffset(0.76)
-		layout1_bottom_split.SetOffset(0.76)
-	} else {
-		layout1_top_split.SetOffset(0.70)
-		layout1_bottom_split.SetOffset(0.70)
-	}
+	cal_space := canvas.NewRectangle(color.RGBA{0, 0, 0, 0})
+	cal_space.SetMinSize(fyne.NewSize(290, 0))
+	layout1_bottom_split := container.NewBorder(nil, nil, nil, container.NewMax(cal_space, calendar), listings_cont)
 
 	layout1_split := container.NewVSplit(layout1_top_split, layout1_bottom_split)
 
@@ -239,7 +237,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 	// confirmation screen vars
 	var confirm_stamp uint64
-	var viewing_address, confirm_dates string
+	var confirm_dates string
 	var viewingValidators func()
 	var profileValidators func()
 
@@ -449,7 +447,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 					go func() {
 						i := 0
 						time.Sleep(5 * time.Second)
-						for set_location.Hidden {
+						for set_location.Hidden && !menu.ClosingApps() {
 							city, country := getLocation(new_install_scid)
 							if city != "" && country != "" {
 								location_is_set = true
@@ -470,6 +468,20 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 			})
 			set_location.Hide()
 
+			back_button := widget.NewButtonWithIcon("Back", fyne.Theme.Icon(fyne.CurrentApp().Settings().Theme(), "cancel"), func() {
+				confirm_action_int = 0
+				confirm_action_scid = ""
+				comment_entry.SetPlaceHolder("")
+				comment_entry.SetText("")
+				release_entry.SetText("")
+				release_check.SetChecked(false)
+				confirm_action.Show()
+				cancel_action.Show()
+				derbnb_gif.Stop()
+				menu.RestartGif(menu.Gnomes.Icon_ind)
+				d.Window.SetContent(reset_to_main)
+			})
+
 			location_entry_cont := container.NewVBox(container.NewAdaptiveGrid(2, city_entry, country_entry), container.NewCenter(set_label), set_location)
 
 			done_button := widget.NewButtonWithIcon("", fyne.Theme.Icon(fyne.CurrentApp().Settings().Theme(), "confirm"), func() {
@@ -489,7 +501,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 				}
 			})
 
-			install_box := container.NewAdaptiveGrid(2, container.NewMax(done_button), copy_button)
+			install_box := container.NewAdaptiveGrid(2, container.NewMax(done_button), container.NewBorder(nil, nil, nil, back_button, copy_button))
 
 			confirm_alpha := canvas.NewRectangle(color.RGBA{0, 0, 0, 150})
 			if bundle.AppColor == color.White {
@@ -513,6 +525,9 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 				d.Window.SetContent(container.NewMax(location_max, container.NewBorder(derbnb_gif, install_box, nil, nil, container.NewVBox(layout.NewSpacer(), confirm_action_label, layout.NewSpacer(), location_entry_cont, layout.NewSpacer()))))
 				go func() {
 					for !balance_confirmed {
+						if menu.ClosingApps() {
+							return
+						}
 						if bal := rpc.TokenBalance(new_install_scid); bal > 0 {
 							balance_confirmed = true
 						}
@@ -887,6 +902,20 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 		}()
 	})
 
+	message_listing := widget.NewButton("Message", func() {
+		if len(viewing_address) == 66 && viewing_address[0:4] == "dero" {
+			derbnb_gif.Start()
+			comment_entry.SetPlaceHolder("Message:")
+			cont := container.NewVBox(layout.NewSpacer(), confirm_action_label, layout.NewSpacer())
+			confirm_border.Objects[4] = container.NewVSplit(cont, message_cont)
+			confirm_action_label.SetText(fmt.Sprintf("Sending message to:\n\n%s", viewing_address))
+			confirm_action_int = 11
+			confirm_border.Refresh()
+			d.Window.SetContent(confirm_max)
+		}
+	})
+	message_listing.Hide()
+
 	listings_list.OnSelected = func(id widget.ListItemID) {
 		go func() {
 			image_box.Objects[0] = canvas.NewImageFromImage(nil)
@@ -898,9 +927,12 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 				count = 0
 				getImages(scid)
 				request_button.Show()
+				message_listing.Show()
 				if len(viewing_scid) != 64 {
 					request_button.Hide()
+					message_listing.Hide()
 				}
+				viewing_address = getOwnerAddress(split[1])
 				property_photos.RLock()
 				listing_label.SetText(getInfo(scid))
 				if property_photos.data[scid] != nil {
@@ -928,8 +960,8 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 			if location := makeLocationString(scid_entry.Text); location != "" {
 				if data := getMetadata(scid_entry.Text); data != nil {
 					derbnb_gif.Start()
-					data_str1 := fmt.Sprintf("Surface: %d\n\nStyle: %s\n\nBedrooms: %d\n\nMax guests: %d\n\nDescription: %s\n\nCleaning fee: %d\n\n", data.Surface, data.Style, data.NumberOfBedrooms, data.MaxNumberOfGuests, data.Description, data.CleaningFee)
-					data_str2 := fmt.Sprintf("Minimum stay: %d\n\nMaximum stay: %d\n\nName: %s\n\nShare: %sRules: %s\n\nBathrooms: %d\n\n", data.MinimumStay, data.MaximumStay, data.Name, data.Share, data.Rules, data.NumberOfBathrooms)
+					data_str1 := fmt.Sprintf("Sq Meters: %d\n\nStyle: %s\n\nBedrooms: %d\n\nMax guests: %d\n\nDescription: %s\n\nCleaning fee: %d\n\n", data.Surface, data.Style, data.NumberOfBedrooms, data.MaxNumberOfGuests, data.Description, data.CleaningFee)
+					data_str2 := fmt.Sprintf("Minimum stay: %d\n\nMaximum stay: %d\n\nName: %s\n\nShare: %s\n\nRules: %s\n\nBathrooms: %d\n\n", data.MinimumStay, data.MaximumStay, data.Name, data.Share, data.Rules, data.NumberOfBathrooms)
 					amen_str1 := fmt.Sprintf("Pets: %s\n\nWifi: %s\n\nTV: %s\n\nKitchen: %s\n\nWasher: %s\n\nFree parking: %s\n\nAir conditioner: %s\n\n", amenityDisplay(data.Pets), amenityDisplay(data.Amenities.Wifi), amenityDisplay(data.Amenities.TV), amenityDisplay(data.Amenities.Kitchen), amenityDisplay(data.Amenities.Washer), amenityDisplay(data.Amenities.Parking), amenityDisplay(data.Amenities.AirConditioner))
 					amen_str2 := fmt.Sprintf("Workspace: %s\n\nPool access: %s\n\nHot tub: %s\n\nBBQ: %s\n\nOutdoor dining: %s\n\nFire pit: %s\n\nGames room: %s\n\n", amenityDisplay(data.Amenities.Workspace), amenityDisplay(data.Amenities.Pool), amenityDisplay(data.Amenities.HotTub), amenityDisplay(data.Amenities.BBQ), amenityDisplay(data.Amenities.OutdoorDining), amenityDisplay(data.Amenities.FirePit), amenityDisplay(data.Amenities.GamesRoom))
 					amen_str3 := fmt.Sprintf("Exercise equipment: %s\n\nLake access: %s\n\nBeach access: %s\n\nSmoke alarm: %s\n\nFire extinguisher: %s", amenityDisplay(data.Amenities.ExerciseEquip), amenityDisplay(data.Amenities.LakeAccess), amenityDisplay(data.Amenities.BeachAccess), amenityDisplay(data.Amenities.SmokeAlarm), amenityDisplay(data.Amenities.FireExtinguisher))
@@ -1360,6 +1392,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 	trvl_button.Hide()
 	request_button.Hide()
+	message_listing.Hide()
 	mint_prop.Hide()
 
 	var property_add_info *widget.Button
@@ -1776,7 +1809,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 		container.NewBorder(booking_list_control, container.NewAdaptiveGrid(4, container.NewMax(cancel_booking_button), container.NewMax(rate_booking_button), container.NewMax(send_message), container.NewMax(trvl_button)), nil, nil, booking_list),
 		container.NewBorder(property_list_control, nil, nil, nil, property_list))
 
-	layout1 := container.NewBorder(dates_box, container.NewAdaptiveGrid(3, layout.NewSpacer(), request_button, layout.NewSpacer()), nil, nil, layout1_split)
+	layout1 := container.NewBorder(dates_box, container.NewAdaptiveGrid(3, message_listing, request_button, layout.NewSpacer()), nil, nil, layout1_split)
 	layout2 := container.NewBorder(nil, control_box, nil, nil, user_info)
 
 	tab_alpha := canvas.NewRectangle(color.RGBA{0, 0, 0, 120})
@@ -1797,7 +1830,9 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 		switch ti.Text {
 		case "Properties":
 			viewing_scid = ""
+			viewing_address = ""
 			request_button.Hide()
+			message_listing.Hide()
 			send_message.Hide()
 			listing_label.SetText("")
 			listings_list.UnselectAll()
@@ -1876,6 +1911,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 						trvl_button.Hide()
 						request_button.Hide()
+						message_listing.Hide()
 						mint_prop.Hide()
 
 						image_box.Objects[0] = &image
@@ -1920,6 +1956,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 					trvl_button.Hide()
 					request_button.Hide()
+					message_listing.Hide()
 					mint_prop.Hide()
 
 					image_box.Objects[0] = &image
@@ -1950,6 +1987,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 	viewingValidators = func() {
 		if len(viewing_scid) != 64 {
 			request_button.Hide()
+			message_listing.Hide()
 			image_box.Objects[0] = canvas.NewImageFromImage(nil)
 			image_box.Refresh()
 		}
