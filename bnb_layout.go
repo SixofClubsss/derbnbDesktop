@@ -1866,7 +1866,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 			if rpc.Daemon.IsConnected() && !menu.Gnomes.IsInitialized() && !menu.Gnomes.Start {
 				property_filter = menu.FetchFilters("derbnb_filter")
 				filters := BnbSearchFilter()
-				go menu.StartGnomon(tag, "gravdb", filters, 0, 0, nil)
+				go menu.StartGnomon(tag, "boltdb", filters, 0, 0, nil)
 			}
 		}
 
