@@ -2,7 +2,6 @@ package derbnb
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"runtime"
@@ -13,11 +12,14 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/civilware/Gnomon/indexer"
+	"github.com/civilware/Gnomon/structures"
 	dreams "github.com/dReam-dApps/dReams"
 	"github.com/dReam-dApps/dReams/bundle"
 	"github.com/dReam-dApps/dReams/menu"
 	"github.com/dReam-dApps/dReams/rpc"
 	"github.com/deroproject/derohe/walletapi"
+	"github.com/sirupsen/logrus"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -78,6 +80,7 @@ var listed_properties []string
 var property_photos string_slice_map
 var my_bookings string_slice_map
 var my_properties string_slice_map
+var logger = structures.Logger.WithFields(logrus.Fields{})
 
 func DreamsMenuIntro() (entries map[string][]string) {
 	entries = map[string][]string{
@@ -98,6 +101,9 @@ func StartApp() {
 	n := runtime.NumCPU()
 	runtime.GOMAXPROCS(n)
 	config := menu.ReadDreamsConfig("DerBnb")
+	arguments := make(map[string]interface{})
+	arguments["--debug"] = false
+	indexer.InitLog(arguments, os.Stderr)
 
 	a := app.New()
 	a.Settings().SetTheme(bundle.DeroTheme(config.Skin))
@@ -154,7 +160,7 @@ func StartApp() {
 
 // Main DerBnb process used in StartApp()
 func fetch(quit, done chan struct{}) {
-	log.Println("[DerBnb]", rpc.DREAMSv, runtime.GOOS, runtime.GOARCH)
+	logger.Println("[DerBnb]", rpc.DREAMSv, runtime.GOOS, runtime.GOARCH)
 	time.Sleep(6 * time.Second)
 	ticker := time.NewTicker(3 * time.Second)
 	rpc.Wallet.TokenBal = make(map[string]uint64)
@@ -197,7 +203,7 @@ func fetch(quit, done chan struct{}) {
 			}
 
 		case <-quit: // exit
-			log.Println("[DerBNB] Closing")
+			logger.Println("[DerBNB] Closing")
 			if menu.Gnomes.Icon_ind != nil {
 				menu.Gnomes.Icon_ind.Stop()
 			}
@@ -362,6 +368,9 @@ func GetProperties() {
 				var doubles []string
 				added_bookings := make(map[string]bool)
 				for _, h := range info[int64(keys[len(keys)-1])] {
+					if !rpc.IsReady() {
+						break
+					}
 					split := strings.Split(h.Key.(string), "_")
 					l := len(split)
 					if l > 1 && len(split[0]) == 64 {

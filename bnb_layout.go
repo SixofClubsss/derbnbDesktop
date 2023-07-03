@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"image/color"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -86,7 +85,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 							image_box.Objects[0] = &image
 							image_box.Refresh()
 						} else {
-							log.Printf("[DerBnb] %s %s\n", url, err)
+							logger.Errorf("[DerBnb] %s %s\n", url, err)
 						}
 					}
 				} else {
@@ -96,7 +95,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 							image_box.Objects[0] = &image
 							image_box.Refresh()
 						} else {
-							log.Printf("[DerBnb] %s %s\n", url, err)
+							logger.Errorf("[DerBnb] %s %s\n", url, err)
 						}
 					}
 				}
@@ -118,7 +117,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 							image_box.Objects[0] = &image
 							image_box.Refresh()
 						} else {
-							log.Printf("[DerBnb] %s %s\n", url, err)
+							logger.Errorf("[DerBnb] %s %s\n", url, err)
 						}
 					}
 				} else {
@@ -128,7 +127,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 							image_box.Objects[0] = &image
 							image_box.Refresh()
 						} else {
-							log.Printf("[DerBnb] %s %s\n", url, err)
+							logger.Errorf("[DerBnb] %s %s\n", url, err)
 						}
 					}
 				}
@@ -398,7 +397,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 			if file, file_err := os.Create("Bnb-Token " + time.Now().Format(time.UnixDate)); file_err == nil {
 				defer file.Close()
 				if _, file_err = file.WriteString(new_install_scid); file_err == nil {
-					log.Println("[DerBnb] Token SCID File Saved")
+					logger.Println("[DerBnb] Token SCID File Saved")
 				}
 			}
 
@@ -941,7 +940,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 							image_box.Objects[0] = &image
 							image_box.Refresh()
 						} else {
-							log.Printf("[DerBnb] %s %s\n", url, err)
+							logger.Errorf("[DerBnb] %s %s\n", url, err)
 							image_box.Objects[0] = canvas.NewImageFromImage(nil)
 							image_box.Refresh()
 						}
@@ -980,7 +979,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 					confirm_action_int = 2
 					d.Window.SetContent(confirm_max)
 				} else {
-					log.Println("[DerBnb] Your property needs metadata")
+					logger.Warnln("[DerBnb] Your property needs metadata")
 					info_message := dialog.NewInformation("Add Property Info", "Your property information needs to be added before it can be listed", d.Window)
 					info_message.SetDismissText("Add Info")
 					info_message.SetOnClosed(func() {
@@ -994,7 +993,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 					info_message.Show()
 				}
 			} else {
-				log.Println("[DerBnb] Your property needs a location")
+				logger.Warnln("[DerBnb] Your property needs a location")
 				dialog.NewInformation("Add Property Location", "Your property needs a location added before it can be listed", d.Window).Show()
 			}
 		}
@@ -1931,7 +1930,7 @@ func LayoutAllItems(imported bool, d *dreams.DreamsObject) fyne.CanvasObject {
 
 					d.WorkDone()
 				case <-d.CloseDapp():
-					log.Println("[DerBnb] Done")
+					logger.Println("[DerBnb] Done")
 					return
 				}
 			}

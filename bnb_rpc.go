@@ -3,7 +3,6 @@ package derbnb
 import (
 	"encoding/hex"
 	"encoding/json"
-	"log"
 	"strconv"
 
 	"github.com/dReam-dApps/dReams/rpc"
@@ -118,7 +117,7 @@ func BnbSearchFilter() (filter []string) {
 
 		err := rpcClientD.CallFor(ctx, &result, "DERO.GetSC", params)
 		if err != nil {
-			log.Println("[searchFilters]", err)
+			logger.Errorln("[searchFilters]", err)
 			return nil
 		}
 
@@ -145,7 +144,7 @@ func getImages(scid string) {
 
 		err := rpcClientD.CallFor(ctx, &result, "DERO.GetSC", params)
 		if err != nil {
-			log.Println("[getImages]", err)
+			logger.Errorln("[getImages]", err)
 			return
 		}
 
@@ -158,9 +157,9 @@ func getImages(scid string) {
 					property_photos.Unlock()
 					return
 				}
-				log.Println("[getImages]", err)
+				logger.Errorln("[getImages]", err)
 			} else {
-				log.Println("[getImages]", err)
+				logger.Errorln("[getImages]", err)
 			}
 		}
 	}
@@ -181,7 +180,7 @@ func getLocation(scid string) (city string, country string) {
 
 		err := rpcClientD.CallFor(ctx, &result, "DERO.GetSC", params)
 		if err != nil {
-			log.Println("[getLocation]", err)
+			logger.Errorln("[getLocation]", err)
 			return
 		}
 
@@ -193,9 +192,9 @@ func getLocation(scid string) (city string, country string) {
 					if err = json.Unmarshal(h, &data); err == nil {
 						return data.City, data.Country
 					}
-					log.Println("[getLocation]", err)
+					logger.Errorln("[getLocation]", err)
 				} else {
-					log.Println("[getLocation]", err)
+					logger.Errorln("[getLocation]", err)
 				}
 			}
 		}
@@ -219,7 +218,7 @@ func getMetadata(scid string) *property_data {
 
 		err := rpcClientD.CallFor(ctx, &result, "DERO.GetSC", params)
 		if err != nil {
-			log.Println("[getMetadata]", err)
+			logger.Errorln("[getMetadata]", err)
 			return nil
 		}
 
@@ -229,9 +228,9 @@ func getMetadata(scid string) *property_data {
 				if err = json.Unmarshal(h, &data); err == nil {
 					return &data
 				}
-				log.Println("[getMetadata]", err)
+				logger.Errorln("[getMetadata]", err)
 			} else {
-				log.Println("[getMetadata]", err)
+				logger.Errorln("[getMetadata]", err)
 			}
 		}
 	}
@@ -254,7 +253,7 @@ func checkAssetContract(scid string) string {
 
 		err := rpcClientD.CallFor(ctx, &result, "DERO.GetSC", params)
 		if err != nil {
-			log.Println("[checkAssetContract]", err)
+			logger.Errorln("[checkAssetContract]", err)
 			return ""
 		}
 
@@ -297,11 +296,11 @@ func RequestBooking(scid string, stamp, s_key, e_key, amt uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[RequestBooking]", err)
+		logger.Errorln("[RequestBooking]", err)
 		return
 	}
 
-	log.Println("[RequestBooking] Request TX:", txid)
+	logger.Println("[RequestBooking] Request TX:", txid)
 	rpc.AddLog("Request Booking TX: " + txid.TXID)
 }
 
@@ -346,15 +345,15 @@ func ListProperty(scid string, amt, dd uint64, burn bool) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[ListProperty]", err)
+		logger.Errorln("[ListProperty]", err)
 		return
 	}
 
 	if !burn {
-		log.Println("[UpdatePrices] Update TX:", txid)
+		logger.Println("[UpdatePrices] Update TX:", txid)
 		rpc.AddLog("Update Prices TX: " + txid.TXID)
 	} else {
-		log.Println("[ListProperty] List TX:", txid)
+		logger.Println("[ListProperty] List TX:", txid)
 		rpc.AddLog("List Property TX: " + txid.TXID)
 	}
 }
@@ -386,11 +385,11 @@ func RemoveProperty(scid string) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[RemoveProperty]", err)
+		logger.Errorln("[RemoveProperty]", err)
 		return
 	}
 
-	log.Println("[RemoveProperty] Remove property TX:", txid)
+	logger.Println("[RemoveProperty] Remove property TX:", txid)
 	rpc.AddLog("Remove Property TX: " + txid.TXID)
 }
 
@@ -423,11 +422,11 @@ func ConfirmBooking(scid string, stamp uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[ConfirmBooking]", err)
+		logger.Errorln("[ConfirmBooking]", err)
 		return
 	}
 
-	log.Println("[ConfirmBooking] Confirm Booking TX:", txid)
+	logger.Println("[ConfirmBooking] Confirm Booking TX:", txid)
 	rpc.AddLog("Confirm Booking TX: " + txid.TXID)
 }
 
@@ -464,11 +463,11 @@ func ReleaseDamageDeposit(scid, desc string, id, amt uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[ReleaseDamageDeposit]", err)
+		logger.Errorln("[ReleaseDamageDeposit]", err)
 		return
 	}
 
-	log.Println("[ReleaseDamageDeposit] Release Deposit TX:", txid)
+	logger.Println("[ReleaseDamageDeposit] Release Deposit TX:", txid)
 	rpc.AddLog("Release Damage Deposit TX: " + txid.TXID)
 }
 
@@ -501,11 +500,11 @@ func CancelBooking(scid string, id uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[CancelBooking]", err)
+		logger.Errorln("[CancelBooking]", err)
 		return
 	}
 
-	log.Println("[CancelBooking] Cancel Booking TX:", txid)
+	logger.Println("[CancelBooking] Cancel Booking TX:", txid)
 	rpc.AddLog("Cancel Booking TX: " + txid.TXID)
 }
 
@@ -545,11 +544,11 @@ func RateExperience(scid string, id, renter, owner, prop, loc, overall uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[RateExperience]", err)
+		logger.Errorln("[RateExperience]", err)
 		return
 	}
 
-	log.Println("[RateExperience] Rate Experience TX:", txid)
+	logger.Println("[RateExperience] Rate Experience TX:", txid)
 	rpc.AddLog("Rate Experience TX: " + txid.TXID)
 }
 
@@ -582,11 +581,11 @@ func ChangeAvailability(scid, cal string) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[ChangeAvailability]", err)
+		logger.Errorln("[ChangeAvailability]", err)
 		return
 	}
 
-	log.Println("[ChangeAvailability] Change Availability TX:", txid)
+	logger.Println("[ChangeAvailability] Change Availability TX:", txid)
 	rpc.AddLog("Change Availability TX: " + txid.TXID)
 }
 
@@ -618,11 +617,11 @@ func UploadBnbTokenContract() (new_scid string) {
 		}
 
 		if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-			log.Println("[UploadTokenContract]", err)
+			logger.Errorln("[UploadTokenContract]", err)
 			return ""
 		}
 
-		log.Println("[UploadTokenContract] Upload TX:", txid)
+		logger.Println("[UploadTokenContract] Upload TX:", txid)
 		rpc.AddLog("Token Upload TX: " + txid.TXID)
 
 		return txid.TXID
@@ -660,11 +659,11 @@ func StoreLocation(scid, location string) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[StoreLocation]", err)
+		logger.Errorln("[StoreLocation]", err)
 		return
 	}
 
-	log.Println("[StoreLocation] Store Location TX:", txid)
+	logger.Println("[StoreLocation] Store Location TX:", txid)
 	rpc.AddLog("Store Location TX: " + txid.TXID)
 }
 
@@ -697,11 +696,11 @@ func UpdateMetadata(scid, metadata string) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[UpdateMetadata]", err)
+		logger.Errorln("[UpdateMetadata]", err)
 		return
 	}
 
-	log.Println("[UpdateMetadata] Update Metadata TX:", txid)
+	logger.Println("[UpdateMetadata] Update Metadata TX:", txid)
 	rpc.AddLog("Update Metadata TX: " + txid.TXID)
 }
 
@@ -742,11 +741,11 @@ func DepositToDerBnb(token bool, amt uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[DepositToDerBnb]", err)
+		logger.Errorln("[DepositToDerBnb]", err)
 		return
 	}
 
-	log.Println("[DepositToDerBnb] Deposit TX:", txid)
+	logger.Println("[DepositToDerBnb] Deposit TX:", txid)
 	rpc.AddLog("DerBnb Deposit TX: " + txid.TXID)
 }
 
@@ -778,11 +777,11 @@ func WithdrawFromDerBnb() {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[WithdrawFromDerBnb]", err)
+		logger.Errorln("[WithdrawFromDerBnb]", err)
 		return
 	}
 
-	log.Println("[WithdrawFromDerBnb] Withdraw TX:", txid)
+	logger.Println("[WithdrawFromDerBnb] Withdraw TX:", txid)
 	rpc.AddLog("DerBnb Withdraw TX: " + txid.TXID)
 }
 
@@ -813,10 +812,10 @@ func SellDerBnbShares(shares uint64) {
 	}
 
 	if err := rpcClientW.CallFor(ctx, &txid, "transfer", params); err != nil {
-		log.Println("[SellDerBnbShares]", err)
+		logger.Errorln("[SellDerBnbShares]", err)
 		return
 	}
 
-	log.Println("[SellDerBnbShares] Sell Shares TX:", txid)
+	logger.Println("[SellDerBnbShares] Sell Shares TX:", txid)
 	rpc.AddLog("DerBnb Sell Shares TX: " + txid.TXID)
 }
