@@ -5,7 +5,7 @@ go 1.20
 require (
 	fyne.io/fyne/v2 v2.3.1
 	fyne.io/x/fyne v0.0.0-20230411205836-1ca0ead20763
-	github.com/dReam-dApps/dReams v0.9.7-0.20230702070846-446929293991
+	github.com/dReam-dApps/dReams v0.9.7-0.20230703010709-f8c584530dfd
 	github.com/deroproject/derohe v0.0.0-20230604143809-765b2db1f482
 )
 

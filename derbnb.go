@@ -112,6 +112,7 @@ func StartApp() {
 			dreams.DreamSave{
 				Skin:   config.Skin,
 				Daemon: []string{rpc.Daemon.Rpc},
+				DBtype: menu.Gnomes.DBType,
 			})
 		menu.Gnomes.Stop("DerBnb")
 		quit <- struct{}{}
@@ -127,6 +128,7 @@ func StartApp() {
 			dreams.DreamSave{
 				Skin:   config.Skin,
 				Daemon: []string{rpc.Daemon.Rpc},
+				DBtype: menu.Gnomes.DBType,
 			})
 		menu.Gnomes.Stop("DerBnb")
 		quit <- struct{}{}
