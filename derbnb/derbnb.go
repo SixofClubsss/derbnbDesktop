@@ -12,7 +12,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/civilware/Gnomon/indexer"
 	"github.com/civilware/Gnomon/structures"
 	dreams "github.com/dReam-dApps/dReams"
 	"github.com/dReam-dApps/dReams/bundle"
@@ -100,10 +99,8 @@ func DreamsMenuIntro() (entries map[string][]string) {
 func StartApp() {
 	n := runtime.NumCPU()
 	runtime.GOMAXPROCS(n)
+	menu.InitLogrusLog(runtime.GOOS == "windows")
 	config := menu.ReadDreamsConfig("DerBnb")
-	arguments := make(map[string]interface{})
-	arguments["--debug"] = false
-	indexer.InitLog(arguments, os.Stderr)
 
 	a := app.New()
 	a.Settings().SetTheme(bundle.DeroTheme(config.Skin))
@@ -115,7 +112,7 @@ func StartApp() {
 	done := make(chan struct{})
 	w.SetCloseIntercept(func() {
 		menu.WriteDreamsConfig(
-			dreams.DreamSave{
+			dreams.SaveData{
 				Skin:   config.Skin,
 				Daemon: []string{rpc.Daemon.Rpc},
 				DBtype: menu.Gnomes.DBType,
@@ -131,7 +128,7 @@ func StartApp() {
 		<-c
 		fmt.Println()
 		menu.WriteDreamsConfig(
-			dreams.DreamSave{
+			dreams.SaveData{
 				Skin:   config.Skin,
 				Daemon: []string{rpc.Daemon.Rpc},
 				DBtype: menu.Gnomes.DBType,
@@ -144,7 +141,7 @@ func StartApp() {
 	menu.Gnomes.Fast = true
 
 	dreams.Theme.Img = *canvas.NewImageFromResource(nil)
-	d := dreams.DreamsObject{
+	d := dreams.AppObject{
 		Window:     w,
 		Background: container.NewMax(&dreams.Theme.Img),
 	}
