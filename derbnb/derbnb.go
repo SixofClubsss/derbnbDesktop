@@ -99,7 +99,7 @@ func DreamsMenuIntro() (entries map[string][]string) {
 func StartApp() {
 	n := runtime.NumCPU()
 	runtime.GOMAXPROCS(n)
-	menu.InitLogrusLog(runtime.GOOS == "windows")
+	menu.InitLogrusLog(logrus.InfoLevel)
 	config := menu.ReadDreamsConfig("DerBnb")
 
 	a := app.New()
@@ -153,12 +153,13 @@ func StartApp() {
 	}()
 	w.ShowAndRun()
 	<-done
+	logger.Println("[DerBNB] Closed")
 }
 
 // Main DerBnb process used in StartApp()
 func fetch(quit, done chan struct{}) {
 	logger.Println("[DerBnb]", rpc.DREAMSv, runtime.GOOS, runtime.GOARCH)
-	time.Sleep(6 * time.Second)
+	time.Sleep(3 * time.Second)
 	ticker := time.NewTicker(3 * time.Second)
 	rpc.Wallet.TokenBal = make(map[string]uint64)
 
@@ -200,7 +201,7 @@ func fetch(quit, done chan struct{}) {
 			}
 
 		case <-quit: // exit
-			logger.Println("[DerBNB] Closing")
+			logger.Println("[DerBNB] Closing...")
 			if menu.Gnomes.Icon_ind != nil {
 				menu.Gnomes.Icon_ind.Stop()
 			}
