@@ -9,7 +9,11 @@ During that event **derbnbDesktop** development commenced and the project was co
 
 Written in Go and using [Fyne Toolkit](https://fyne.io/), derbnbDesktop is built on Dero's private L1. Powered by [Gnomon](https://github.com/civilware/Gnomon) and [dReams](https://github.com/dReam-dApps/dReams) packages, derbnbDesktop gives owners and renters a new way to facilitate property management and rental requests in a private manner.
 
+![goMod](https://img.shields.io/github/go-mod/go-version/SixofClubsss/derbnbDesktop.svg)![goReport](https://goreportcard.com/badge/github.com/SixofClubsss/derbnbDesktop)[![GoDoc reference example](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/SixofClubsss/derbnbDesktop)
+
 As well as being its own application, the derbnbDesktop package can be imported for use in other Go/Fyne applications. Currently derbnbDesktop is featured as a dApp in [dReams](https://dreamdapps.io), and DerBnb currently has a web app in development.
+
+![windowsOS](https://raw.githubusercontent.com/SixofClubsss/dreamdappsite/main/assets/os-windows-green.svg)![macOS](https://raw.githubusercontent.com/SixofClubsss/dreamdappsite/main/assets/os-macOS-green.svg)![linuxOS](https://raw.githubusercontent.com/SixofClubsss/dreamdappsite/main/assets/os-linux-green.svg)
 
 ### Features
 - Runs locally on your machine
@@ -28,8 +32,8 @@ As well as being its own application, the derbnbDesktop package can be imported 
 
 ```
 git clone https://github.com/SixofClubsss/derbnbDesktop.git
-cd derbnbDesktop/cmd
-go build -o derbnbDesktop .
+cd derbnbDesktop/cmd/derbnbDesktop
+go build .
 ./derbnbDesktop
 ```
 
