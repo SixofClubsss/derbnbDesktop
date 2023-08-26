@@ -94,8 +94,10 @@ github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsr
 github.com/cpuguy83/go-md2man/v2 v2.0.1/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/creachadair/jrpc2 v0.43.0 h1:sgYSOoAWXZ5cx9pd2pYH8dkrjCNdDpFwhO4ucMeUz7U=
 github.com/creachadair/jrpc2 v0.43.0/go.mod h1:oOdNFoMQQpSirGcSujG10NYl05K/IYrIUUNbh+/Xcd8=
-github.com/dReam-dApps/dReams v0.10.1-0.20230824191814-448137442a38 h1:IWP6S+tO0Aw6lvGuV9nixGvv1ihHBN7644/Fs2rYgpI=
-github.com/dReam-dApps/dReams v0.10.1-0.20230824191814-448137442a38/go.mod h1:/yRBuo+S30UBMiDV2yWHVv6TT8E6U46GQAlIlFPcqCE=
+github.com/dReam-dApps/dReams v0.10.1-0.20230825191936-318997d6874c h1:iytcnv26MTT0vXqlXZ5RcKl6U3JQLJ5FVR8DsMfCzvk=
+github.com/dReam-dApps/dReams v0.10.1-0.20230825191936-318997d6874c/go.mod h1:/yRBuo+S30UBMiDV2yWHVv6TT8E6U46GQAlIlFPcqCE=
+github.com/dReam-dApps/dReams v0.10.1-0.20230826224434-3b5f55dae41d h1:4/XBUAjlQaXWhjYL5Ih6+w9bAjGNqlWTcaiwCpo8L6c=
+github.com/dReam-dApps/dReams v0.10.1-0.20230826224434-3b5f55dae41d/go.mod h1:/yRBuo+S30UBMiDV2yWHVv6TT8E6U46GQAlIlFPcqCE=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
