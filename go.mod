@@ -6,7 +6,7 @@ require (
 	fyne.io/fyne/v2 v2.3.1
 	fyne.io/x/fyne v0.0.0-20230411205836-1ca0ead20763
 	github.com/civilware/Gnomon v0.0.0-20230706132518-bda82e989415
-	github.com/dReam-dApps/dReams v0.10.1-0.20230826224434-3b5f55dae41d
+	github.com/dReam-dApps/dReams v0.10.1-0.20230829045315-48f0d04a5192
 	github.com/deroproject/derohe v0.0.0-20230604143809-765b2db1f482
 	github.com/sirupsen/logrus v1.9.3
 )
