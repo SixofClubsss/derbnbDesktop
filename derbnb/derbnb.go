@@ -274,23 +274,8 @@ func filterProperty(check interface{}) bool {
 func SearchProperties(prefix string, search_city bool) (results []string) {
 	if rpc.IsReady() {
 		if menu.Gnomes.IsReady() {
-			info := menu.Gnomes.GetAllSCIDVariableDetails(rpc.DerBnbSCID)
-			if info != nil {
-				i := 0
-				keys := make([]int, len(info))
-				for k := range info {
-					keys[i] = int(k)
-					i++
-				}
-
-				// If no info, return
-				if len(keys) == 0 {
-					return
-				}
-
-				sort.Ints(keys)
-
-				for _, h := range info[int64(keys[len(keys)-1])] {
+			if info := menu.Gnomes.GetAllSCIDVariableDetails(rpc.DerBnbSCID); info != nil {
+				for _, h := range info {
 					split := strings.Split(h.Key.(string), "_")
 					if len(split) > 1 && len(split[0]) == 64 {
 						if split[1] == "owner" {
@@ -339,22 +324,7 @@ func SearchProperties(prefix string, search_city bool) (results []string) {
 func GetProperties() {
 	if rpc.IsReady() {
 		if menu.Gnomes.IsReady() {
-			info := menu.Gnomes.GetAllSCIDVariableDetails(rpc.DerBnbSCID)
-			if info != nil {
-				i := 0
-				keys := make([]int, len(info))
-				for k := range info {
-					keys[i] = int(k)
-					i++
-				}
-
-				// If no info, return
-				if len(keys) == 0 {
-					return
-				}
-
-				sort.Ints(keys)
-
+			if info := menu.Gnomes.GetAllSCIDVariableDetails(rpc.DerBnbSCID); info != nil {
 				lp := []string{}
 
 				mpm := make(map[string][]string)
@@ -365,7 +335,7 @@ func GetProperties() {
 
 				var doubles []string
 				added_bookings := make(map[string]bool)
-				for _, h := range info[int64(keys[len(keys)-1])] {
+				for _, h := range info {
 					if !rpc.IsReady() {
 						break
 					}
